@@ -7,6 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.imnidasoftware.daydiary.presentation.screens.auth.AuthenticationScreen
 import com.imnidasoftware.daydiary.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
 
 @Composable
@@ -26,7 +27,12 @@ fun SetupNavGraph(
 
 fun NavGraphBuilder.authenticationRoute() {
     composable(route = Screen.Authentication.route) {
+        AuthenticationScreen(
+            loadingState = false,
+            onButtonClicked = {
 
+            }
+        )
     }
 }
 

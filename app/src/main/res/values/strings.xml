@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">DayDiary</string>
+    <string name="welcome_back">Welcome back</string>
+    <string name="google_logo">Google logo</string>
+    <string name="please_sign_in_to_continue">Please sign in to continue</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="please_wait">Please wait…</string>
 </resources>
