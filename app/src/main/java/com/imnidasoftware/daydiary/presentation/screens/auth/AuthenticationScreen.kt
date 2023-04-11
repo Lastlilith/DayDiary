@@ -1,7 +1,6 @@
 package com.imnidasoftware.daydiary.presentation.screens.auth
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import com.imnidasoftware.daydiary.util.Constants.CLIENT_ID
@@ -16,7 +15,9 @@ fun AuthenticationScreen(
     loadingState: Boolean,
     oneTapState: OneTapSignInState,
     messageBarState: MessageBarState,
-    onButtonClicked: () -> Unit
+    onButtonClicked: () -> Unit,
+    onTokenIdReceived: (String) -> Unit,
+    onDialogDismissed: (String) -> Unit
 ) {
     Scaffold(
         content = {
@@ -33,12 +34,10 @@ fun AuthenticationScreen(
         state = oneTapState,
         clientId = CLIENT_ID,
         onTokenIdReceived = {tokenId ->
-        Log.d("Auth", tokenId)
-            messageBarState.addSuccess("Successfully Authenticated!")
+            onTokenIdReceived(tokenId)
         },
         onDialogDismissed = {message ->
-            Log.d("Auth", message)
-            messageBarState.addError(Exception(message))
+            onDialogDismissed(message)
         }
     )
 }
