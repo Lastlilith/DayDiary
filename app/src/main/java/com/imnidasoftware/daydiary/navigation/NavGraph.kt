@@ -10,6 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.imnidasoftware.daydiary.data.repository.MongoDB
 import com.imnidasoftware.daydiary.presentation.components.DisplayAlertDialog
 import com.imnidasoftware.daydiary.presentation.screens.auth.AuthenticationScreen
 import com.imnidasoftware.daydiary.presentation.screens.auth.AuthenticationViewModel
@@ -114,6 +115,10 @@ fun NavGraphBuilder.homeRoute(
             },
             navigateToWrite = navigateToWrite
         )
+        LaunchedEffect(key1 = Unit) {
+            MongoDB.configureTheRealm()
+        }
+
         DisplayAlertDialog(
             title = "Sign Out",
             message = "Are you sure you want to sign out?",
