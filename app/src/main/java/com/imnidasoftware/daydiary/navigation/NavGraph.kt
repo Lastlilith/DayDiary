@@ -10,13 +10,14 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.imnidasoftware.daydiary.data.repository.MongoDB
 import com.imnidasoftware.daydiary.presentation.components.DisplayAlertDialog
 import com.imnidasoftware.daydiary.presentation.screens.auth.AuthenticationScreen
 import com.imnidasoftware.daydiary.presentation.screens.auth.AuthenticationViewModel
 import com.imnidasoftware.daydiary.presentation.screens.home.HomeScreen
+import com.imnidasoftware.daydiary.presentation.screens.home.HomeViewModel
 import com.imnidasoftware.daydiary.util.Constants.APP_ID
 import com.imnidasoftware.daydiary.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
+import com.imnidasoftware.daydiary.util.RequestState
 import com.stevdzasan.messagebar.rememberMessageBarState
 import com.stevdzasan.onetap.rememberOneTapSignInState
 import io.realm.kotlin.mongodb.App
@@ -27,7 +28,8 @@ import kotlinx.coroutines.withContext
 @Composable
 fun SetupNavGraph(
     startDestination: String,
-    navController: NavHostController
+    navController: NavHostController,
+    onDataLoaded: () -> Unit
 ) {
     NavHost(
         startDestination = startDestination,
@@ -37,7 +39,8 @@ fun SetupNavGraph(
             navigateToHome = {
                 navController.popBackStack()
                 navController.navigate(Screen.Home.route)
-            }
+            },
+            onDataLoaded = onDataLoaded
         )
         homeRoute(
             navigateToWrite = {
@@ -46,14 +49,16 @@ fun SetupNavGraph(
             navigateToAuth = {
                 navController.popBackStack()
                 navController.navigate(Screen.Authentication.route)
-            }
+            },
+            onDataLoaded = onDataLoaded
         )
         writeRoute()
     }
 }
 
 fun NavGraphBuilder.authenticationRoute(
-    navigateToHome: () -> Unit
+    navigateToHome: () -> Unit,
+    onDataLoaded: () -> Unit
 ) {
     composable(route = Screen.Authentication.route) {
         val viewModel: AuthenticationViewModel = viewModel()
@@ -61,6 +66,10 @@ fun NavGraphBuilder.authenticationRoute(
         val loadingState by viewModel.loadingState
         val oneTapState = rememberOneTapSignInState()
         val messageBarState = rememberMessageBarState()
+
+        LaunchedEffect(key1 = Unit) {
+            onDataLoaded()
+        }
 
         AuthenticationScreen(
             authenticated = authenticated,
@@ -95,15 +104,24 @@ fun NavGraphBuilder.authenticationRoute(
 
 fun NavGraphBuilder.homeRoute(
     navigateToWrite: () -> Unit,
-    navigateToAuth: () -> Unit
+    navigateToAuth: () -> Unit,
+    onDataLoaded: () -> Unit
 ) {
     composable(route = Screen.Home.route) {
+        val viewModel: HomeViewModel = viewModel()
+        val diaries by viewModel.diaries
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-        var signOutDialogOpened by remember {
-            mutableStateOf(false)
-        }
+        var signOutDialogOpened by remember { mutableStateOf(false) }
         val scope = rememberCoroutineScope()
+        
+        LaunchedEffect(key1 = diaries) {
+            if (diaries !is RequestState.Loading) {
+                onDataLoaded()
+            }
+        }
+        
         HomeScreen(
+            diaries = diaries,
             drawerState = drawerState,
             onMenuClicked = {
                 scope.launch {
@@ -115,9 +133,6 @@ fun NavGraphBuilder.homeRoute(
             },
             navigateToWrite = navigateToWrite
         )
-        LaunchedEffect(key1 = Unit) {
-            MongoDB.configureTheRealm()
-        }
 
         DisplayAlertDialog(
             title = "Sign Out",

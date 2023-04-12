@@ -6,4 +6,6 @@
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="please_wait">Please wait…</string>
     <string name="sign_out">Sign Out</string>
+    <string name="empty_diary">Empty Diary</string>
+    <string name="write_something">Write Something</string>
 </resources>
