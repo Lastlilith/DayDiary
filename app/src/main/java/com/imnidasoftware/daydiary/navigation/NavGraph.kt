@@ -1,5 +1,6 @@
 package com.imnidasoftware.daydiary.navigation
 
+import android.util.Log
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.*
@@ -192,10 +193,12 @@ fun NavGraphBuilder.writeRoute(onBackPressed: () -> Unit) {
             onDeleteConfirmed = {},
             onBackPressed = onBackPressed,
             onSaveClicked = {
-                viewModel.insertDiary(
+                viewModel.upsertDiary(
                     diary = it.apply { mood = Mood.values()[pageNumber].name },
                     onSuccess = {onBackPressed()},
-                    onError = {}
+                    onError = {message ->
+                        Log.d("MongoDBError", message)
+                    }
                 )
             }
         )

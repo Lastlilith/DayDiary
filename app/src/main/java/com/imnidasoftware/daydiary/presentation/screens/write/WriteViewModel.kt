@@ -12,6 +12,7 @@ import com.imnidasoftware.daydiary.model.Mood
 import com.imnidasoftware.daydiary.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
 import com.imnidasoftware.daydiary.util.RequestState
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.mongodb.kbson.ObjectId
@@ -38,14 +39,17 @@ class WriteViewModel(
 
     private fun fetchSelectedDiary() {
         if (uiState.selectedDiaryId != null) {
-            viewModelScope.launch(Dispatchers.Main) {
+            viewModelScope.launch {
                 MongoDB.getSelectedDiary(diaryId = ObjectId.invoke(uiState.selectedDiaryId!!))
+                    .catch {
+                        emit(RequestState.Error(Exception("Diary is already deleted.")))
+                    }
                     .collect { diary ->
                         if (diary is RequestState.Success) {
+                            setMood(mood = Mood.valueOf(diary.data.mood))
                             setSelectedDiary(diary = diary.data)
                             setTitle(title = diary.data.title)
                             setDescription(description = diary.data.description)
-                            setMood(mood = Mood.valueOf(diary.data.mood))
                         }
                     }
             }
@@ -68,12 +72,25 @@ class WriteViewModel(
         uiState = uiState.copy(mood = mood)
     }
 
-    fun insertDiary(
+    fun upsertDiary(
+        diary: Diary,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (uiState.selectedDiaryId != null) {
+                updateDiary(diary = diary, onSuccess = onSuccess, onError = onError)
+            } else {
+                insertDiary(diary = diary, onSuccess = onSuccess, onError = onError)
+            }
+        }
+    }
+
+    private suspend fun insertDiary(
         diary: Diary,
         onSuccess: () -> Unit,
         onError: (String) -> Unit,
     ) {
-        viewModelScope.launch(Dispatchers.IO) {
             val result = MongoDB.insertDiary(diary = diary)
             if (result is RequestState.Success) {
                 withContext(Dispatchers.Main) {
@@ -83,6 +100,25 @@ class WriteViewModel(
                 withContext(Dispatchers.Main) {
                     onError(result.error.message.toString())
                 }
+            }
+    }
+
+    private suspend fun updateDiary(
+        diary: Diary,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        val result = MongoDB.updateDiary(diary = diary.apply {
+            _id = ObjectId.invoke(uiState.selectedDiaryId!!)
+            date = uiState.selectedDiary!!.date
+        })
+        if (result is RequestState.Success) {
+            withContext(Dispatchers.Main) {
+                onSuccess()
+            }
+        } else if (result is RequestState.Error) {
+            withContext(Dispatchers.Main) {
+                onError(result.error.message.toString())
             }
         }
     }
