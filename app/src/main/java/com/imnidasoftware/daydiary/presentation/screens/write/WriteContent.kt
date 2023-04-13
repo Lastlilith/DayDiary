@@ -8,9 +8,13 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -22,6 +26,7 @@ import com.google.accompanist.pager.PagerState
 import com.imnidasoftware.daydiary.R
 import com.imnidasoftware.daydiary.model.Diary
 import com.imnidasoftware.daydiary.model.Mood
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -37,11 +42,18 @@ fun WriteContent(
 ) {
     val scrollState = rememberScrollState()
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val focusManager = LocalFocusManager.current
+    
+    LaunchedEffect(key1 = scrollState.maxValue) {
+        scrollState.scrollTo(scrollState.maxValue)
+    }
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .imePadding()
+            .navigationBarsPadding()
             .padding(top = paddingValues.calculateTopPadding())
-            .padding(bottom = paddingValues.calculateBottomPadding())
             .padding(bottom = 24.dp)
             .padding(horizontal = 24.dp),
         verticalArrangement = Arrangement.SpaceBetween
@@ -83,7 +95,12 @@ fun WriteContent(
                     imeAction = ImeAction.Next
                 ),
                 keyboardActions = KeyboardActions(
-                    onNext = {}
+                    onNext = {
+                        scope.launch {
+                            scrollState.animateScrollTo(Int.MAX_VALUE)
+                            focusManager.moveFocus(FocusDirection.Down)
+                        }
+                    }
                 ),
                 maxLines = 1,
                 singleLine = true
@@ -106,7 +123,9 @@ fun WriteContent(
                     imeAction = ImeAction.Next
                 ),
                 keyboardActions = KeyboardActions(
-                    onNext = {}
+                    onNext = {
+                        focusManager.clearFocus()
+                    }
                 )
             )
         }

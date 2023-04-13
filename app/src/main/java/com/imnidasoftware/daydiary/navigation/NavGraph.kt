@@ -1,9 +1,11 @@
 package com.imnidasoftware.daydiary.navigation
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -180,6 +182,7 @@ fun NavGraphBuilder.writeRoute(onBackPressed: () -> Unit) {
     ) {
         val viewModel: WriteViewModel = viewModel()
         val uiState = viewModel.uiState
+        val context = LocalContext.current
         val pagerState = rememberPagerState()
         val pageNumber by remember { derivedStateOf { pagerState.currentPage } }
 
@@ -190,15 +193,38 @@ fun NavGraphBuilder.writeRoute(onBackPressed: () -> Unit) {
             pagerState = pagerState,
             onTitleChanged = { viewModel.setTitle(title = it) },
             onDescriptionChanged = { viewModel.setDescription(description = it) },
-            onDeleteConfirmed = {},
+            onDeleteConfirmed = {
+                viewModel.deleteDiary(
+                    onSuccess = {
+                        Toast.makeText(
+                            context,
+                            "Deleted",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        onBackPressed()
+                    },
+                    onError = {message ->
+                        Toast.makeText(
+                            context,
+                            message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                )
+            },
             onDateTimeUpdated = { viewModel.updateDateTime(zonedDateTime = it) },
             onBackPressed = onBackPressed,
             onSaveClicked = {
                 viewModel.upsertDiary(
                     diary = it.apply { mood = Mood.values()[pageNumber].name },
-                    onSuccess = {onBackPressed()},
-                    onError = {message ->
+                    onSuccess = { onBackPressed() },
+                    onError = { message ->
                         Log.d("MongoDBError", message)
+                        Toast.makeText(
+                            context,
+                            message,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 )
             }
