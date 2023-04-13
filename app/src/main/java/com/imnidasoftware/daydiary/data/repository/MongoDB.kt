@@ -2,7 +2,7 @@ package com.imnidasoftware.daydiary.data.repository
 
 import com.imnidasoftware.daydiary.model.Diary
 import com.imnidasoftware.daydiary.util.Constants.APP_ID
-import com.imnidasoftware.daydiary.util.RequestState
+import com.imnidasoftware.daydiary.model.RequestState
 import com.imnidasoftware.daydiary.util.toInstant
 import io.realm.kotlin.Realm
 import io.realm.kotlin.ext.query

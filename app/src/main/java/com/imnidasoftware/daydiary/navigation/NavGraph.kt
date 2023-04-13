@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
+import com.imnidasoftware.daydiary.model.GalleryImage
 import com.imnidasoftware.daydiary.model.Mood
 import com.imnidasoftware.daydiary.presentation.components.DisplayAlertDialog
 import com.imnidasoftware.daydiary.presentation.screens.auth.AuthenticationScreen
@@ -25,7 +26,8 @@ import com.imnidasoftware.daydiary.presentation.screens.write.WriteScreen
 import com.imnidasoftware.daydiary.presentation.screens.write.WriteViewModel
 import com.imnidasoftware.daydiary.util.Constants.APP_ID
 import com.imnidasoftware.daydiary.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
-import com.imnidasoftware.daydiary.util.RequestState
+import com.imnidasoftware.daydiary.model.RequestState
+import com.imnidasoftware.daydiary.model.rememberGalleryState
 import com.stevdzasan.messagebar.rememberMessageBarState
 import com.stevdzasan.onetap.rememberOneTapSignInState
 import io.realm.kotlin.mongodb.App
@@ -184,12 +186,14 @@ fun NavGraphBuilder.writeRoute(onBackPressed: () -> Unit) {
         val uiState = viewModel.uiState
         val context = LocalContext.current
         val pagerState = rememberPagerState()
+        val galleryState = rememberGalleryState()
         val pageNumber by remember { derivedStateOf { pagerState.currentPage } }
 
 
         WriteScreen(
             uiState = uiState,
             moodName = { Mood.values()[pageNumber].name },
+            galleryState = galleryState,
             pagerState = pagerState,
             onTitleChanged = { viewModel.setTitle(title = it) },
             onDescriptionChanged = { viewModel.setDescription(description = it) },
@@ -226,6 +230,14 @@ fun NavGraphBuilder.writeRoute(onBackPressed: () -> Unit) {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
+                )
+            },
+            onImageSelect = {
+                galleryState.addImage(
+                    GalleryImage(
+                        image = it,
+                        remoteImagePath = ""
+                    )
                 )
             }
         )

@@ -1,7 +1,7 @@
 package com.imnidasoftware.daydiary.data.repository
 
 import com.imnidasoftware.daydiary.model.Diary
-import com.imnidasoftware.daydiary.util.RequestState
+import com.imnidasoftware.daydiary.model.RequestState
 import kotlinx.coroutines.flow.Flow
 import org.mongodb.kbson.ObjectId
 import java.time.LocalDate

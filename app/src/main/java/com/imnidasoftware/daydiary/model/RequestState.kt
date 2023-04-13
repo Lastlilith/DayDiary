@@ -1,4 +1,4 @@
-package com.imnidasoftware.daydiary.util
+package com.imnidasoftware.daydiary.model
 
 sealed class RequestState<out T> {
     object Idle : RequestState<Nothing>()

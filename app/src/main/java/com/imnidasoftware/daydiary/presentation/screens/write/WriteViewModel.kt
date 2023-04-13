@@ -10,7 +10,7 @@ import com.imnidasoftware.daydiary.data.repository.MongoDB
 import com.imnidasoftware.daydiary.model.Diary
 import com.imnidasoftware.daydiary.model.Mood
 import com.imnidasoftware.daydiary.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
-import com.imnidasoftware.daydiary.util.RequestState
+import com.imnidasoftware.daydiary.model.RequestState
 import com.imnidasoftware.daydiary.util.toRealmInstant
 import io.realm.kotlin.types.RealmInstant
 import kotlinx.coroutines.Dispatchers

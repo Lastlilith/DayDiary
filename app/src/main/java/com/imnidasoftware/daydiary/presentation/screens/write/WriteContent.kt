@@ -1,5 +1,6 @@
 package com.imnidasoftware.daydiary.presentation.screens.write
 
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -25,7 +26,9 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.imnidasoftware.daydiary.R
 import com.imnidasoftware.daydiary.model.Diary
+import com.imnidasoftware.daydiary.model.GalleryState
 import com.imnidasoftware.daydiary.model.Mood
+import com.imnidasoftware.daydiary.presentation.components.GalleryUploader
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
@@ -34,11 +37,13 @@ fun WriteContent(
     uiState: UiState,
     pagerState: PagerState,
     title: String,
+    galleryState: GalleryState,
     onTitleChanged: (String) -> Unit,
     description: String,
     onDescriptionChanged: (String) -> Unit,
     onSaveClicked: (Diary) -> Unit,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    onImageSelect: (Uri) -> Unit
 ) {
     val scrollState = rememberScrollState()
     val context = LocalContext.current
@@ -133,6 +138,13 @@ fun WriteContent(
         Column(
             verticalArrangement = Arrangement.Bottom
         ) {
+            Spacer(modifier = Modifier.height(12.dp))
+            GalleryUploader(
+                galleryState = galleryState,
+                onAddClicked = {},
+                onImageSelect = onImageSelect,
+                onImageClicked = {}
+            )
             Spacer(modifier = Modifier.height(12.dp))
             Button(
                 modifier = Modifier
