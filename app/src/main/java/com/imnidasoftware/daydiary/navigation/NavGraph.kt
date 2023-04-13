@@ -12,12 +12,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
+import com.imnidasoftware.daydiary.model.Mood
 import com.imnidasoftware.daydiary.presentation.components.DisplayAlertDialog
 import com.imnidasoftware.daydiary.presentation.screens.auth.AuthenticationScreen
 import com.imnidasoftware.daydiary.presentation.screens.auth.AuthenticationViewModel
 import com.imnidasoftware.daydiary.presentation.screens.home.HomeScreen
 import com.imnidasoftware.daydiary.presentation.screens.home.HomeViewModel
 import com.imnidasoftware.daydiary.presentation.screens.write.WriteScreen
+import com.imnidasoftware.daydiary.presentation.screens.write.WriteViewModel
 import com.imnidasoftware.daydiary.util.Constants.APP_ID
 import com.imnidasoftware.daydiary.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
 import com.imnidasoftware.daydiary.util.RequestState
@@ -48,6 +50,9 @@ fun SetupNavGraph(
         homeRoute(
             navigateToWrite = {
                 navController.navigate(Screen.Write.route)
+            },
+            navigateToWriteWithArgs = {
+                navController.navigate(Screen.Write.passDiaryId(diaryId = it))
             },
             navigateToAuth = {
                 navController.popBackStack()
@@ -109,6 +114,7 @@ fun NavGraphBuilder.authenticationRoute(
 
 fun NavGraphBuilder.homeRoute(
     navigateToWrite: () -> Unit,
+    navigateToWriteWithArgs: (String) -> Unit,
     navigateToAuth: () -> Unit,
     onDataLoaded: () -> Unit
 ) {
@@ -136,7 +142,8 @@ fun NavGraphBuilder.homeRoute(
             onSignOutClicked = {
                 signOutDialogOpened = true
             },
-            navigateToWrite = navigateToWrite
+            navigateToWrite = navigateToWrite,
+            navigateToWriteWithArgs = navigateToWriteWithArgs
         )
 
         DisplayAlertDialog(
@@ -170,11 +177,18 @@ fun NavGraphBuilder.writeRoute(onBackPressed: () -> Unit) {
             defaultValue = null
         })
     ) {
+        val viewModel: WriteViewModel = viewModel()
+        val uiState = viewModel.uiState
         val pagerState = rememberPagerState()
+        val pageNumber by remember { derivedStateOf {pagerState.currentPage} }
+
 
         WriteScreen(
-            selectedDiary = null,
+            uiState = uiState,
+            moodName = { Mood.values()[pageNumber].name},
             pagerState = pagerState,
+            onTitleChanged = {viewModel.setTitle(title = it)},
+            onDescriptionChanged = {viewModel.setDescription(description = it)},
             onDeleteConfirmed = {},
             onBackPressed = onBackPressed
         )
