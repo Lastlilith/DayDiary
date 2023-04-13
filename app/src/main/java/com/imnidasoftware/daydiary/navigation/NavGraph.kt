@@ -10,11 +10,14 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.rememberPagerState
 import com.imnidasoftware.daydiary.presentation.components.DisplayAlertDialog
 import com.imnidasoftware.daydiary.presentation.screens.auth.AuthenticationScreen
 import com.imnidasoftware.daydiary.presentation.screens.auth.AuthenticationViewModel
 import com.imnidasoftware.daydiary.presentation.screens.home.HomeScreen
 import com.imnidasoftware.daydiary.presentation.screens.home.HomeViewModel
+import com.imnidasoftware.daydiary.presentation.screens.write.WriteScreen
 import com.imnidasoftware.daydiary.util.Constants.APP_ID
 import com.imnidasoftware.daydiary.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
 import com.imnidasoftware.daydiary.util.RequestState
@@ -52,7 +55,9 @@ fun SetupNavGraph(
             },
             onDataLoaded = onDataLoaded
         )
-        writeRoute()
+        writeRoute(onBackPressed = {
+            navController.popBackStack()
+        })
     }
 }
 
@@ -113,13 +118,13 @@ fun NavGraphBuilder.homeRoute(
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
         var signOutDialogOpened by remember { mutableStateOf(false) }
         val scope = rememberCoroutineScope()
-        
+
         LaunchedEffect(key1 = diaries) {
             if (diaries !is RequestState.Loading) {
                 onDataLoaded()
             }
         }
-        
+
         HomeScreen(
             diaries = diaries,
             drawerState = drawerState,
@@ -154,7 +159,9 @@ fun NavGraphBuilder.homeRoute(
     }
 }
 
-fun NavGraphBuilder.writeRoute() {
+@OptIn(ExperimentalPagerApi::class)
+fun NavGraphBuilder.writeRoute(onBackPressed: () -> Unit) {
+
     composable(
         route = Screen.Write.route,
         arguments = listOf(navArgument(name = WRITE_SCREEN_ARGUMENT_KEY) {
@@ -163,6 +170,13 @@ fun NavGraphBuilder.writeRoute() {
             defaultValue = null
         })
     ) {
+        val pagerState = rememberPagerState()
 
+        WriteScreen(
+            selectedDiary = null,
+            pagerState = pagerState,
+            onDeleteConfirmed = {},
+            onBackPressed = onBackPressed
+        )
     }
 }

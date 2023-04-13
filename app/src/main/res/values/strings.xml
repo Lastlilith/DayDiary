@@ -8,4 +8,6 @@
     <string name="sign_out">Sign Out</string>
     <string name="empty_diary">Empty Diary</string>
     <string name="write_something">Write Something</string>
+    <string name="delete">Delete</string>
+    <string name="save">Save</string>
 </resources>
