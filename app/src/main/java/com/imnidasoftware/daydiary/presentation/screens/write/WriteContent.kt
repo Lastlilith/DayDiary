@@ -1,5 +1,6 @@
 package com.imnidasoftware.daydiary.presentation.screens.write
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
@@ -19,19 +20,23 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.imnidasoftware.daydiary.R
+import com.imnidasoftware.daydiary.model.Diary
 import com.imnidasoftware.daydiary.model.Mood
 
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun WriteContent(
+    uiState: UiState,
     pagerState: PagerState,
     title: String,
     onTitleChanged: (String) -> Unit,
     description: String,
     onDescriptionChanged: (String) -> Unit,
+    onSaveClicked: (Diary) -> Unit,
     paddingValues: PaddingValues
 ) {
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -114,7 +119,22 @@ fun WriteContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(54.dp),
-                onClick = { /*TODO*/ },
+                onClick = {
+                          if (uiState.title.isNotEmpty() && uiState.description.isNotEmpty()) {
+                              onSaveClicked(
+                                  Diary().apply {
+                                      this.title = uiState.title
+                                      this.description = uiState.description
+                                  }
+                              )
+                          } else {
+                              Toast.makeText(
+                                  context,
+                                  "Fields can't be empty",
+                                  Toast.LENGTH_SHORT
+                              ).show()
+                          }
+                },
                 shape = Shapes().small
             ) {
                 Text(text = stringResource(R.string.save))

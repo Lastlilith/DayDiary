@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
+import com.imnidasoftware.daydiary.model.Diary
 import com.imnidasoftware.daydiary.model.Mood
 
 @OptIn(ExperimentalPagerApi::class)
@@ -15,6 +16,7 @@ fun WriteScreen(
     uiState: UiState,
     moodName: () -> String,
     pagerState: PagerState,
+    onSaveClicked: (Diary) -> Unit,
     onTitleChanged: (String) -> Unit,
     onDescriptionChanged: (String) -> Unit,
     onDeleteConfirmed: () -> Unit,
@@ -34,12 +36,14 @@ fun WriteScreen(
         },
         content = {
             WriteContent(
+                uiState = uiState,
                 pagerState = pagerState,
                 title = uiState.title,
                 onTitleChanged = onTitleChanged,
                 description = uiState.description,
                 onDescriptionChanged = onDescriptionChanged,
-                paddingValues = it
+                paddingValues = it,
+                onSaveClicked = onSaveClicked
             )
         }
     )
