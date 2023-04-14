@@ -155,6 +155,9 @@ fun NavGraphBuilder.homeRoute(
             onDeleteAllClicked = {
                 deleteAllDialogOpened = true
             },
+            dateIsSelected = viewModel.dateIsSelected,
+            onDateSelected = { viewModel.getDiaries(zonedDateTime = it) },
+            onDateReset = { viewModel.getDiaries() },
             navigateToWrite = navigateToWrite,
             navigateToWriteWithArgs = navigateToWriteWithArgs
         )
@@ -195,7 +198,8 @@ fun NavGraphBuilder.homeRoute(
                             context,
                             if (it.message == "No Internet Connection") "We need an Internet connection for this operation"
                             else it.message,
-                            Toast.LENGTH_SHORT).show()
+                            Toast.LENGTH_SHORT
+                        ).show()
                         scope.launch {
                             drawerState.close()
                         }
@@ -272,7 +276,7 @@ fun NavGraphBuilder.writeRoute(onBackPressed: () -> Unit) {
                 Log.d("WriteViewModel", "URI: $it")
                 viewModel.addImage(image = it, imageType = type)
             },
-            onImageDeleteClicked = { galleryState.removeImage(it)}
+            onImageDeleteClicked = { galleryState.removeImage(it) }
         )
     }
 }
