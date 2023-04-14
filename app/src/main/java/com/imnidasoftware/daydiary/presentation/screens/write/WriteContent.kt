@@ -26,6 +26,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.imnidasoftware.daydiary.R
 import com.imnidasoftware.daydiary.model.Diary
+import com.imnidasoftware.daydiary.model.GalleryImage
 import com.imnidasoftware.daydiary.model.GalleryState
 import com.imnidasoftware.daydiary.model.Mood
 import com.imnidasoftware.daydiary.presentation.components.GalleryUploader
@@ -44,7 +45,8 @@ fun WriteContent(
     onDescriptionChanged: (String) -> Unit,
     onSaveClicked: (Diary) -> Unit,
     paddingValues: PaddingValues,
-    onImageSelect: (Uri) -> Unit
+    onImageSelect: (Uri) -> Unit,
+    onImageClicked: (GalleryImage) -> Unit,
 ) {
     val scrollState = rememberScrollState()
     val context = LocalContext.current
@@ -144,7 +146,7 @@ fun WriteContent(
                 galleryState = galleryState,
                 onAddClicked = { focusManager.clearFocus() },
                 onImageSelect = onImageSelect,
-                onImageClicked = {}
+                onImageClicked = onImageClicked
             )
             Spacer(modifier = Modifier.height(12.dp))
             Button(
