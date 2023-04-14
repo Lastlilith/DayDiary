@@ -29,6 +29,7 @@ import com.imnidasoftware.daydiary.model.Diary
 import com.imnidasoftware.daydiary.model.GalleryState
 import com.imnidasoftware.daydiary.model.Mood
 import com.imnidasoftware.daydiary.presentation.components.GalleryUploader
+import io.realm.kotlin.ext.toRealmList
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class, ExperimentalMaterial3Api::class)
@@ -49,7 +50,7 @@ fun WriteContent(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val focusManager = LocalFocusManager.current
-    
+
     LaunchedEffect(key1 = scrollState.maxValue) {
         scrollState.scrollTo(scrollState.maxValue)
     }
@@ -72,7 +73,7 @@ fun WriteContent(
             HorizontalPager(
                 state = pagerState,
                 count = Mood.values().size
-            ) {page ->
+            ) { page ->
                 AsyncImage(
                     modifier = Modifier.size(120.dp),
                     model = ImageRequest.Builder(LocalContext.current)
@@ -141,7 +142,7 @@ fun WriteContent(
             Spacer(modifier = Modifier.height(12.dp))
             GalleryUploader(
                 galleryState = galleryState,
-                onAddClicked = { focusManager.clearFocus()},
+                onAddClicked = { focusManager.clearFocus() },
                 onImageSelect = onImageSelect,
                 onImageClicked = {}
             )
@@ -151,20 +152,21 @@ fun WriteContent(
                     .fillMaxWidth()
                     .height(54.dp),
                 onClick = {
-                          if (uiState.title.isNotEmpty() && uiState.description.isNotEmpty()) {
-                              onSaveClicked(
-                                  Diary().apply {
-                                      this.title = uiState.title
-                                      this.description = uiState.description
-                                  }
-                              )
-                          } else {
-                              Toast.makeText(
-                                  context,
-                                  "Fields can't be empty",
-                                  Toast.LENGTH_SHORT
-                              ).show()
-                          }
+                    if (uiState.title.isNotEmpty() && uiState.description.isNotEmpty()) {
+                        onSaveClicked(
+                            Diary().apply {
+                                this.title = uiState.title
+                                this.description = uiState.description
+                                this.images = galleryState.images.map { it.remoteImagePath }.toRealmList()
+                            }
+                        )
+                    } else {
+                        Toast.makeText(
+                            context,
+                            "Fields can't be empty",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 },
                 shape = Shapes().small
             ) {

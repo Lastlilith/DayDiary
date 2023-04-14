@@ -15,8 +15,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
-import com.imnidasoftware.daydiary.model.GalleryImage
 import com.imnidasoftware.daydiary.model.Mood
+import com.imnidasoftware.daydiary.model.RequestState
 import com.imnidasoftware.daydiary.presentation.components.DisplayAlertDialog
 import com.imnidasoftware.daydiary.presentation.screens.auth.AuthenticationScreen
 import com.imnidasoftware.daydiary.presentation.screens.auth.AuthenticationViewModel
@@ -26,8 +26,6 @@ import com.imnidasoftware.daydiary.presentation.screens.write.WriteScreen
 import com.imnidasoftware.daydiary.presentation.screens.write.WriteViewModel
 import com.imnidasoftware.daydiary.util.Constants.APP_ID
 import com.imnidasoftware.daydiary.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
-import com.imnidasoftware.daydiary.model.RequestState
-import com.imnidasoftware.daydiary.model.rememberGalleryState
 import com.stevdzasan.messagebar.rememberMessageBarState
 import com.stevdzasan.onetap.rememberOneTapSignInState
 import io.realm.kotlin.mongodb.App
@@ -189,8 +187,8 @@ fun NavGraphBuilder.writeRoute(onBackPressed: () -> Unit) {
         val viewModel: WriteViewModel = viewModel()
         val uiState = viewModel.uiState
         val context = LocalContext.current
+        val galleryState = viewModel.galleryState
         val pagerState = rememberPagerState()
-        val galleryState = rememberGalleryState()
         val pageNumber by remember { derivedStateOf { pagerState.currentPage } }
 
 
@@ -211,7 +209,7 @@ fun NavGraphBuilder.writeRoute(onBackPressed: () -> Unit) {
                         ).show()
                         onBackPressed()
                     },
-                    onError = {message ->
+                    onError = { message ->
                         Toast.makeText(
                             context,
                             message,
@@ -237,12 +235,9 @@ fun NavGraphBuilder.writeRoute(onBackPressed: () -> Unit) {
                 )
             },
             onImageSelect = {
-                galleryState.addImage(
-                    GalleryImage(
-                        image = it,
-                        remoteImagePath = ""
-                    )
-                )
+                val type = context.contentResolver.getType(it)?.split("/")?.last() ?: "jpg"
+                Log.d("WriteViewModel", "URI: $it")
+                viewModel.addImage(image = it, imageType = type)
             }
         )
     }
