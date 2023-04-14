@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.FirebaseApp
 import com.imnidasoftware.daydiary.navigation.Screen
 import com.imnidasoftware.daydiary.navigation.SetupNavGraph
 import com.imnidasoftware.daydiary.ui.theme.DayDiaryTheme
@@ -20,9 +21,10 @@ class MainActivity : ComponentActivity() {
         installSplashScreen().setKeepOnScreenCondition {
             keepSplashOpened
         }
+        FirebaseApp.initializeApp(this)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            DayDiaryTheme {
+            DayDiaryTheme(dynamicColor = false) {
                 val navController = rememberNavController()
                 SetupNavGraph(
                     startDestination = getStartDestination(),

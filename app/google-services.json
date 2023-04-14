@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "561867093073",
+    "project_id": "daydiary-383404",
+    "storage_bucket": "daydiary-383404.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:561867093073:android:fa1f8ddef055b04d1d7470",
+        "android_client_info": {
+          "package_name": "com.imnidasoftware.daydiary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "561867093073-2ted5k6hif1dfj668j4paisbapk4nlcr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpOFHCqQhrLVGUIKbfEiC2Pw7gCVGmr_8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "561867093073-2ted5k6hif1dfj668j4paisbapk4nlcr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
