@@ -7,7 +7,7 @@ import androidx.room.Query
 import com.imnidasoftware.daydiary.data.database.entity.ImageToUpload
 
 @Dao
-interface ImagesToUploadDao {
+interface ImageToUploadDao {
 
     @Query("SELECT * FROM image_to_upload_table ORDER BY id ASC")
     suspend fun getAllImages(): List<ImageToUpload>

@@ -10,5 +10,5 @@ import com.imnidasoftware.daydiary.data.database.entity.ImageToUpload
     exportSchema = false
 )
 abstract class ImagesDatabase: RoomDatabase() {
-    abstract fun imageToUploadDao(): ImagesToUploadDao
+    abstract fun imageToUploadDao(): ImageToUploadDao
 }
