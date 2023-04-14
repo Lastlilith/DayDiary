@@ -10,4 +10,5 @@
     <string name="write_something">Write Something</string>
     <string name="delete">Delete</string>
     <string name="save">Save</string>
+    <string name="delete_all_diaries">Delete All Diaries</string>
 </resources>
