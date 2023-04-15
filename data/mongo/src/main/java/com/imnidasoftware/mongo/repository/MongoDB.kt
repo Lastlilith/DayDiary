@@ -1,5 +1,6 @@
 package com.imnidasoftware.mongo.repository
 
+import android.annotation.SuppressLint
 import com.imnidasoftware.util.Constants.APP_ID
 import com.imnidasoftware.util.model.Diary
 import com.imnidasoftware.util.model.RequestState
@@ -44,6 +45,7 @@ object MongoDB: MongoRepository {
         }
     }
 
+    @SuppressLint("NewApi")
     override fun getAllDiaries(): Flow<Diaries> {
         return if (user != null) {
             try {
@@ -67,6 +69,7 @@ object MongoDB: MongoRepository {
         }
     }
 
+    @SuppressLint("NewApi")
     override fun getFilteredDiaries(zonedDateTime: ZonedDateTime): Flow<Diaries> {
         return if (user != null) {
             try {

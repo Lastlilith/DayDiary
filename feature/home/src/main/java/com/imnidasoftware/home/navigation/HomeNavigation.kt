@@ -27,7 +27,7 @@ fun NavGraphBuilder.homeRoute(
 ) {
     composable(route = Screen.Home.route) {
         val viewModel: HomeViewModel = hiltViewModel()
-        val diaries = viewModel.diaries
+        val diaries by viewModel.diaries
         val context = LocalContext.current
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
         var signOutDialogOpened by remember { mutableStateOf(false) }
@@ -35,13 +35,13 @@ fun NavGraphBuilder.homeRoute(
         val scope = rememberCoroutineScope()
 
         LaunchedEffect(key1 = diaries) {
-            if (diaries.value !is RequestState.Loading) {
+            if (diaries !is RequestState.Loading) {
                 onDataLoaded()
             }
         }
 
         HomeScreen(
-            diaries = diaries.value,
+            diaries = diaries,
             drawerState = drawerState,
             onMenuClicked = {
                 scope.launch {

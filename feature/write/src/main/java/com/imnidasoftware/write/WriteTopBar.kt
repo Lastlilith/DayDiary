@@ -1,5 +1,6 @@
 package com.imnidasoftware.write
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
@@ -30,9 +31,10 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 
+@SuppressLint("NewApi")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WriteTopBar(
+internal fun WriteTopBar(
     selectedDiary: Diary?,
     onBackPressed: () -> Unit,
     onDateTimeUpdated: (ZonedDateTime) -> Unit,
@@ -161,7 +163,7 @@ fun WriteTopBar(
 }
 
 @Composable
-fun DeleteDiaryAction(
+internal fun DeleteDiaryAction(
     selectedDiary: Diary?,
     onDeleteConfirmed: () -> Unit
 ) {
