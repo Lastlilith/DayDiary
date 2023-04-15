@@ -45,7 +45,7 @@ android {
         kotlinCompilerExtensionVersion ProjectConfig.extensionVersion
     }
     packagingOptions {
-        resources.excludes.add("META-INF/**/*")
+        resources.excludes.add("META-INF/*")
     }
 }
 
@@ -118,4 +118,5 @@ dependencies {
     implementation(project(":core:util"))
     implementation(project(":data:mongo"))
     implementation(project(":feature:auth"))
+    implementation(project(":feature:home"))
 }

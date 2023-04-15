@@ -1,4 +1,4 @@
-package com.imnidasoftware.daydiary.presentation.screens.home
+package com.imnidasoftware.home
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image

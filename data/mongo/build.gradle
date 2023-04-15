@@ -31,7 +31,7 @@ android {
         jvmTarget = '1.8'
     }
     packagingOptions {
-        resources.excludes.add("META-INF/**/*")
+        resources.excludes.add("META-INF/*")
     }
 }
 

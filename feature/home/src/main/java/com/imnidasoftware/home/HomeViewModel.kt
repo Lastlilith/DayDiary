@@ -1,4 +1,4 @@
-package com.imnidasoftware.daydiary.presentation.screens.home
+package com.imnidasoftware.home
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue

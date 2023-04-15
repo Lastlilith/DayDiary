@@ -1,4 +1,4 @@
-package com.imnidasoftware.daydiary.presentation.screens.home
+package com.imnidasoftware.home
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
