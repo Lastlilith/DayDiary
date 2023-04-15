@@ -16,17 +16,18 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
-import com.imnidasoftware.daydiary.model.Mood
-import com.imnidasoftware.daydiary.model.RequestState
-import com.imnidasoftware.daydiary.presentation.components.DisplayAlertDialog
 import com.imnidasoftware.daydiary.presentation.screens.auth.AuthenticationScreen
 import com.imnidasoftware.daydiary.presentation.screens.auth.AuthenticationViewModel
 import com.imnidasoftware.daydiary.presentation.screens.home.HomeScreen
 import com.imnidasoftware.daydiary.presentation.screens.home.HomeViewModel
 import com.imnidasoftware.daydiary.presentation.screens.write.WriteScreen
 import com.imnidasoftware.daydiary.presentation.screens.write.WriteViewModel
-import com.imnidasoftware.daydiary.util.Constants.APP_ID
-import com.imnidasoftware.daydiary.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
+import com.imnidasoftware.ui.components.DisplayAlertDialog
+import com.imnidasoftware.util.Constants.APP_ID
+import com.imnidasoftware.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
+import com.imnidasoftware.util.Screen
+import com.imnidasoftware.util.model.Mood
+import com.imnidasoftware.util.model.RequestState
 import com.stevdzasan.messagebar.rememberMessageBarState
 import com.stevdzasan.onetap.rememberOneTapSignInState
 import io.realm.kotlin.mongodb.App
@@ -128,7 +129,7 @@ fun NavGraphBuilder.homeRoute(
 ) {
     composable(route = Screen.Home.route) {
         val viewModel: HomeViewModel = hiltViewModel()
-        val diaries by viewModel.diaries
+        val diaries = viewModel.diaries
         val context = LocalContext.current
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
         var signOutDialogOpened by remember { mutableStateOf(false) }
@@ -136,13 +137,13 @@ fun NavGraphBuilder.homeRoute(
         val scope = rememberCoroutineScope()
 
         LaunchedEffect(key1 = diaries) {
-            if (diaries !is RequestState.Loading) {
+            if (diaries.value !is RequestState.Loading) {
                 onDataLoaded()
             }
         }
 
         HomeScreen(
-            diaries = diaries,
+            diaries = diaries.value,
             drawerState = drawerState,
             onMenuClicked = {
                 scope.launch {

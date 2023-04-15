@@ -2,9 +2,9 @@ package com.imnidasoftware.daydiary.di
 
 import android.content.Context
 import androidx.room.Room
-import com.imnidasoftware.daydiary.connectivity.NetworkConnectivityObserver
-import com.imnidasoftware.daydiary.data.database.ImagesDatabase
-import com.imnidasoftware.daydiary.util.Constants.IMAGES_DATABASE
+import com.imnidasoftware.mongo.database.ImagesDatabase
+import com.imnidasoftware.util.Constants.IMAGES_DATABASE
+import com.imnidasoftware.util.connectivity.NetworkConnectivityObserver
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

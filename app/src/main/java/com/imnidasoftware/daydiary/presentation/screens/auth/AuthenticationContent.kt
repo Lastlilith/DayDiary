@@ -8,10 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.imnidasoftware.daydiary.R
-import com.imnidasoftware.daydiary.presentation.components.GoogleButton
+import com.imnidasoftware.ui.R
+import com.imnidasoftware.ui.components.GoogleButton
 
 @Composable
 fun AuthenticationContent(
@@ -38,15 +37,15 @@ fun AuthenticationContent(
                 Image(
                     modifier = Modifier.size(120.dp),
                     painter = painterResource(id = R.drawable.google_logo),
-                    contentDescription = stringResource(R.string.google_logo)
+                    contentDescription = "Google Logo"
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 Text(
-                    text = stringResource(R.string.welcome_back),
+                    text = "Welcome back",
                     fontSize = MaterialTheme.typography.titleLarge.fontSize
                 )
                 Text(
-                    text = stringResource(R.string.please_sign_in_to_continue),
+                    text = "Please sign in to continue",
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f),
                     fontSize = MaterialTheme.typography.bodyMedium.fontSize
                 )

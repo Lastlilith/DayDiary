@@ -10,14 +10,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.imnidasoftware.daydiary.R
-import com.imnidasoftware.daydiary.model.Diary
-import com.imnidasoftware.daydiary.presentation.components.DiaryHolder
+import com.imnidasoftware.util.DiaryHolder
+import com.imnidasoftware.util.model.Diary
 import java.time.LocalDate
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -100,8 +98,8 @@ fun DateHeader(localDate: LocalDate) {
 
 @Composable
 fun EmptyPage(
-    title: String = stringResource(R.string.empty_diary),
-    subtitle: String = stringResource(R.string.write_something)
+    title: String = "Empty Diary",
+    subtitle: String = "Write something"
 ) {
     Column(
         modifier = Modifier

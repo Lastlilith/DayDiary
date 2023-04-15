@@ -1,14 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Day Diary</string>
-    <string name="welcome_back">Welcome back</string>
-    <string name="google_logo">Google logo</string>
-    <string name="please_sign_in_to_continue">Please sign in to continue</string>
-    <string name="sign_in_with_google">Sign in with Google</string>
-    <string name="please_wait">Please wait…</string>
-    <string name="sign_out">Sign Out</string>
-    <string name="empty_diary">Empty Diary</string>
-    <string name="write_something">Write Something</string>
-    <string name="delete">Delete</string>
-    <string name="save">Save</string>
-    <string name="delete_all_diaries">Delete All Diaries</string>
 </resources>

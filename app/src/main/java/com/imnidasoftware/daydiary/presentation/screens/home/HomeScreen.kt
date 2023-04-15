@@ -12,12 +12,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import com.imnidasoftware.daydiary.R
-import com.imnidasoftware.daydiary.data.repository.Diaries
-import com.imnidasoftware.daydiary.model.RequestState
+import com.imnidasoftware.mongo.repository.Diaries
+import com.imnidasoftware.ui.R
+import com.imnidasoftware.util.model.RequestState
 import java.time.ZonedDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -129,7 +128,7 @@ fun NavigationDrawer(
                                 )
                                 Spacer(modifier = Modifier.width(12.dp))
                                 Text(
-                                    text = stringResource(R.string.sign_out),
+                                    text = "Sign Out",
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
                             }
@@ -147,7 +146,7 @@ fun NavigationDrawer(
                                 )
                                 Spacer(modifier = Modifier.width(12.dp))
                                 Text(
-                                    text = stringResource(R.string.delete_all_diaries),
+                                    text = "Delete All Diaries",
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
                             }

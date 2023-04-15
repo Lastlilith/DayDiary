@@ -25,10 +25,10 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
-import com.imnidasoftware.daydiary.model.Diary
-import com.imnidasoftware.daydiary.model.GalleryImage
-import com.imnidasoftware.daydiary.model.GalleryState
-import com.imnidasoftware.daydiary.model.Mood
+import com.imnidasoftware.ui.GalleryImage
+import com.imnidasoftware.ui.GalleryState
+import com.imnidasoftware.util.model.Diary
+import com.imnidasoftware.util.model.Mood
 import java.time.ZonedDateTime
 
 @OptIn(ExperimentalPagerApi::class)

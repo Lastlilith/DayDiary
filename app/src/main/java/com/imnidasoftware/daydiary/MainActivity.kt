@@ -3,19 +3,22 @@ package com.imnidasoftware.daydiary
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.core.net.toUri
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.FirebaseApp
-import com.imnidasoftware.daydiary.data.database.ImageToDeleteDao
-import com.imnidasoftware.daydiary.data.database.ImageToUploadDao
-import com.imnidasoftware.daydiary.navigation.Screen
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storageMetadata
 import com.imnidasoftware.daydiary.navigation.SetupNavGraph
-import com.imnidasoftware.daydiary.ui.theme.DayDiaryTheme
-import com.imnidasoftware.daydiary.util.Constants.APP_ID
-import com.imnidasoftware.daydiary.util.retryDeletingImageFromFirebase
-import com.imnidasoftware.daydiary.util.retryUploadingImageToFirebase
+import com.imnidasoftware.mongo.database.ImageToDeleteDao
+import com.imnidasoftware.mongo.database.ImageToUploadDao
+import com.imnidasoftware.mongo.database.entity.ImageToDelete
+import com.imnidasoftware.mongo.database.entity.ImageToUpload
+import com.imnidasoftware.ui.theme.DayDiaryTheme
+import com.imnidasoftware.util.Constants.APP_ID
+import com.imnidasoftware.util.Screen
 import dagger.hilt.android.AndroidEntryPoint
 import io.realm.kotlin.mongodb.App
 import kotlinx.coroutines.CoroutineScope
@@ -95,4 +98,25 @@ private fun getStartDestination(): String {
     val user = App.create(APP_ID).currentUser
     return if (user != null && user.loggedIn) Screen.Home.route
     else Screen.Authentication.route
+}
+
+fun retryUploadingImageToFirebase(
+    imageToUpload: ImageToUpload,
+    onSuccess: () -> Unit
+) {
+    val storage = FirebaseStorage.getInstance().reference
+    storage.child(imageToUpload.remoteImagePath).putFile(
+        imageToUpload.imageUri.toUri(),
+        storageMetadata { },
+        imageToUpload.sessionUri.toUri()
+    ).addOnSuccessListener { onSuccess() }
+}
+
+fun retryDeletingImageFromFirebase(
+    imageToDelete: ImageToDelete,
+    onSuccess: () -> Unit
+) {
+    val storage = FirebaseStorage.getInstance().reference
+    storage.child(imageToDelete.remoteImagePath).delete()
+        .addOnSuccessListener { onSuccess() }
 }

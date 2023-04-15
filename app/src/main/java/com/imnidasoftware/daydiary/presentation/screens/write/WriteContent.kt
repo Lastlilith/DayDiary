@@ -16,7 +16,6 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -24,12 +23,11 @@ import coil.request.ImageRequest
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
-import com.imnidasoftware.daydiary.R
-import com.imnidasoftware.daydiary.model.Diary
-import com.imnidasoftware.daydiary.model.GalleryImage
-import com.imnidasoftware.daydiary.model.GalleryState
-import com.imnidasoftware.daydiary.model.Mood
-import com.imnidasoftware.daydiary.presentation.components.GalleryUploader
+import com.imnidasoftware.ui.GalleryImage
+import com.imnidasoftware.ui.GalleryState
+import com.imnidasoftware.util.GalleryUploader
+import com.imnidasoftware.util.model.Diary
+import com.imnidasoftware.util.model.Mood
 import io.realm.kotlin.ext.toRealmList
 import kotlinx.coroutines.launch
 
@@ -172,7 +170,7 @@ fun WriteContent(
                 },
                 shape = Shapes().small
             ) {
-                Text(text = stringResource(R.string.save))
+                Text(text = "Save")
             }
         }
     }

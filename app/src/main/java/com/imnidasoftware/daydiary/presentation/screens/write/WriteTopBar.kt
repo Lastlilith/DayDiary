@@ -10,14 +10,12 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import com.imnidasoftware.daydiary.R
-import com.imnidasoftware.daydiary.model.Diary
-import com.imnidasoftware.daydiary.presentation.components.DisplayAlertDialog
-import com.imnidasoftware.daydiary.util.toInstant
+import com.imnidasoftware.ui.components.DisplayAlertDialog
+import com.imnidasoftware.util.model.Diary
+import com.imnidasoftware.util.toInstant
 import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarConfig
@@ -174,7 +172,7 @@ fun DeleteDiaryAction(
     ) {
         DropdownMenuItem(
             text = {
-                Text(text = stringResource(R.string.delete))
+                Text(text = "Delete")
             }, onClick = {
                 openDialog = true
                 expanded = false
@@ -182,7 +180,7 @@ fun DeleteDiaryAction(
         )
     }
     DisplayAlertDialog(
-        title = stringResource(R.string.delete),
+        title = "Delete",
         message = "Are you sure you want to permanently delete this diary note '${selectedDiary?.title}'?",
         dialogOpened = openDialog,
         onDialogClosed = { openDialog = false },
