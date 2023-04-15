@@ -1,4 +1,4 @@
-package com.imnidasoftware.daydiary.presentation.screens.write
+package com.imnidasoftware.write
 
 import android.net.Uri
 import android.util.Log

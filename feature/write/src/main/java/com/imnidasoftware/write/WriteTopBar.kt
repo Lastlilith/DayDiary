@@ -1,4 +1,4 @@
-package com.imnidasoftware.daydiary.presentation.screens.write
+package com.imnidasoftware.write
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,6 +28,7 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

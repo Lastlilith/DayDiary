@@ -1,4 +1,4 @@
-package com.imnidasoftware.ui
+package com.imnidasoftware.write
 
 import org.junit.Test
 

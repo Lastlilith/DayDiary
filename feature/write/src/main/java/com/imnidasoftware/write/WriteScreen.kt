@@ -1,4 +1,4 @@
-package com.imnidasoftware.daydiary.presentation.screens.write
+package com.imnidasoftware.write
 
 import android.annotation.SuppressLint
 import android.net.Uri
