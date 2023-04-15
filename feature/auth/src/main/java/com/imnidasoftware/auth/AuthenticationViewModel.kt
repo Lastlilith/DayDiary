@@ -1,4 +1,4 @@
-package com.imnidasoftware.daydiary.presentation.screens.auth
+package com.imnidasoftware.auth
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel

@@ -1,4 +1,4 @@
-package com.imnidasoftware.daydiary.presentation.screens.auth
+package com.imnidasoftware.auth
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
