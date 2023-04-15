@@ -24,7 +24,6 @@ import com.maxkeppeler.sheets.calendar.models.CalendarConfig
 import com.maxkeppeler.sheets.calendar.models.CalendarSelection
 import com.maxkeppeler.sheets.clock.ClockDialog
 import com.maxkeppeler.sheets.clock.models.ClockSelection
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
@@ -60,8 +59,9 @@ fun WriteTopBar(
 
     val selectedDiaryDateTime = remember(selectedDiary) {
         if (selectedDiary != null) {
-            SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault())
-                .format(Date.from(selectedDiary.date.toInstant())).uppercase()
+            DateTimeFormatter.ofPattern("dd MMM yyyy, hh:mm a", Locale.getDefault())
+                .withZone(ZoneId.systemDefault())
+                .format(selectedDiary.date.toInstant())
         } else {
             "Unknown"
         }
