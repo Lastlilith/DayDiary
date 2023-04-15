@@ -36,8 +36,8 @@ internal fun AuthenticationContent(
             ) {
                 Image(
                     modifier = Modifier.size(120.dp),
-                    painter = painterResource(id = com.imnidasoftware.ui.R.drawable.google_logo),
-                    contentDescription = "Google Logo"
+                    painter = painterResource(id = com.imnidasoftware.ui.R.drawable.logo),
+                    contentDescription = "App Logo"
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 Text(
