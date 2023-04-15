@@ -1,4 +1,4 @@
 <resources>
-    <string name="auth_title">Day Diary</string>
-    <string name="auth_subtitle">Please sign in to continue.</string>
+    <string name="auth_title">Soulscript</string>
+    <string name="auth_subtitle">Capture your every day with Soulscript!</string>
 </resources>
