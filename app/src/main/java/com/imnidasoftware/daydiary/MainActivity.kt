@@ -3,13 +3,11 @@ package com.imnidasoftware.daydiary
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.core.net.toUri
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.firebase.FirebaseApp
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storageMetadata
@@ -38,7 +36,6 @@ class MainActivity : ComponentActivity() {
     lateinit var imageToDeleteDao: ImageToDeleteDao
 
     var keepSplashOpened = true
-    @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen().setKeepOnScreenCondition {
@@ -48,7 +45,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             DayDiaryTheme(dynamicColor = false) {
-                val navController = rememberAnimatedNavController()
+                val navController = rememberNavController()
                 SetupNavGraph(
                     startDestination = getStartDestination(),
                     navController = navController,
