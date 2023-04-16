@@ -35,7 +35,7 @@ internal fun AuthenticationContent(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
-                    modifier = Modifier.size(120.dp),
+                    modifier = Modifier.size(240.dp),
                     painter = painterResource(id = com.imnidasoftware.ui.R.drawable.logo),
                     contentDescription = "App Logo"
                 )
