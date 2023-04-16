@@ -50,7 +50,7 @@ internal fun WriteScreen(
 ) {
     var selectedGalleryImage by remember{ mutableStateOf<GalleryImage?>(null) }
 
-    // Update tge Mood when selecting an existing Diary
+    // Update the Mood when selecting an existing Diary
     LaunchedEffect(key1 = uiState.mood) {
         pagerState.scrollToPage(Mood.valueOf(uiState.mood.name).ordinal)
     }

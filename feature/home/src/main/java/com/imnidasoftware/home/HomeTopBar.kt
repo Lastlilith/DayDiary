@@ -41,7 +41,7 @@ internal fun HomeTopBar(
             }
         },
         title = {
-            Text(text = "Day Diary")
+            Text(text = "Soulscript")
         },
         actions = {
             if (dateIsSelected) {

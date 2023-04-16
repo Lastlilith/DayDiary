@@ -100,7 +100,7 @@ internal fun DateHeader(localDate: LocalDate) {
 
 @Composable
 internal fun EmptyPage(
-    title: String = "Empty Diary",
+    title: String = "Empty Script",
     subtitle: String = "Share your thoughts"
 ) {
     Column(

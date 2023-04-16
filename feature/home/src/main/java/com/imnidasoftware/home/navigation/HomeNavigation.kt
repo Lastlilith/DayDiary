@@ -1,13 +1,16 @@
 package com.imnidasoftware.home.navigation
 
 import android.widget.Toast
+import androidx.compose.animation.*
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
+import com.google.accompanist.navigation.animation.composable
 import com.imnidasoftware.home.HomeScreen
 import com.imnidasoftware.home.HomeViewModel
 import com.imnidasoftware.ui.components.DisplayAlertDialog
@@ -19,13 +22,34 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.homeRoute(
     navigateToWrite: () -> Unit,
     navigateToWriteWithArgs: (String) -> Unit,
     navigateToAuth: () -> Unit,
     onDataLoaded: () -> Unit
 ) {
-    composable(route = Screen.Home.route) {
+    composable(
+        route = Screen.Home.route,
+        exitTransition = {
+            slideOutHorizontally(
+                targetOffsetX = { -300 },
+                animationSpec = tween(
+                    durationMillis = 300,
+                    easing = FastOutSlowInEasing
+                )
+            ) + fadeOut(animationSpec = tween(300))
+        },
+        popEnterTransition = {
+            slideInHorizontally(
+                initialOffsetX = { -300 },
+                animationSpec = tween(
+                    durationMillis = 300,
+                    easing = FastOutSlowInEasing
+                )
+            ) + fadeIn(animationSpec = tween(300))
+        }
+    ) {
         val viewModel: HomeViewModel = hiltViewModel()
         val diaries by viewModel.diaries
         val context = LocalContext.current
